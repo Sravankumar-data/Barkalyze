@@ -1,0 +1,16 @@
+streamlit
+opencv-python-headless==4.8.1.78
+numpy
+streamlit-webrtc
+tensorflow==2.13.0
+typing-extensions==4.5.0
+tf-keras
+streamlit_autorefresh
+dvc
+mlflow==2.9.2
+python-box==7.3.2
+pyYAML
+pymongo
+ensure==1.0.4
+tqdm
+-e .
