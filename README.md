@@ -11,6 +11,9 @@
 8. Update the main.py
 9. Update the dvc.yaml
 
+uvicorn api:app --reload
+
+
 dvc init
 
 set PYTHONPATH=.

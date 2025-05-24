@@ -1,53 +1,67 @@
 import os
-from pymongo import MongoClient
-import gridfs
+import shutil
+import random
+import subprocess
 from src.bark.entity.config_entity import DataIngestionConfig
-from dotenv import load_dotenv
-import os
-from pathlib import Path
 
 class DataIngestion:
-  def __init__(self, config: DataIngestionConfig):
-      self.config = config
- 
-  def download_file(self,collection_name)-> str:
-      '''
-      Fetch data from the uri
-      '''
+    def __init__(self, config: DataIngestionConfig):
+        self.config = config
+        self.train_ratio = 0.8
+    def download_file(self):
+        """
+        Pull data from DVC remote by running 'dvc pull',
+        then split into train/test folders locally.
+        """
+        try:
+        # Step 1: Run 'dvc pull' to sync data from remote storage
+            try:
+                print("[INFO] Pulling data from DVC remote...")
+                result = subprocess.run(["dvc", "pull", os.path.join(self.config.root_dir, "emotion_dataset.dvc")], capture_output=True, text=True, check=True)
+                print(result.stdout)
+            except subprocess.CalledProcessError as e:
+                print(f"[ERROR] dvc pull failed: {e.stderr}")
+                raise e
+            
+            data_dir = os.path.join(self.config.root_dir,"emotion_dataset")
+            train_dir = os.path.join(self.config.local_data_file, "emotion_dataset_train")
+            test_dir = os.path.join(self.config.local_data_file, "emotion_dataset_test")
 
-      try: 
-        load_dotenv(dotenv_path=Path(__file__).resolve().parents[3] / ".env")
-        MONGO_URI = os.getenv("MONGODB_URI")
-        client = MongoClient(MONGO_URI)
+            # Remove old train/test folders if they exist
+            if os.path.exists(train_dir):
+                shutil.rmtree(train_dir)
+            if os.path.exists(test_dir):
+                shutil.rmtree(test_dir)
 
-        db = client[collection_name]
-        fs = gridfs.GridFS(db)
+            os.makedirs(train_dir, exist_ok=True)
+            os.makedirs(test_dir, exist_ok=True)
 
-        # Local directory to save the retrieved dataset
-        OUTPUT_DIR = self.config.local_data_file + collection_name
+            # Step 2: Split data into train/test folders by emotion
+            for emotion_folder in os.listdir(data_dir):
+                emotion_path = os.path.join(data_dir, emotion_folder)
+                if not os.path.isdir(emotion_path):
+                    continue
 
-        # Create the root output directory if it doesn't exist
-        os.makedirs(OUTPUT_DIR, exist_ok=True)
+                files = os.listdir(emotion_path)
+                # random.shuffle(files)
 
-        # Iterate through all files in GridFS
-        for file in fs.find():
-            label = file.metadata.get("label", "unknown")
-            filename = file.filename
+                split_idx = int(len(files) * self.train_ratio)
+                train_files = files[:split_idx]
+                test_files = files[split_idx:]
 
-            # Create label folder if it doesn't exist
-            label_dir = os.path.join(OUTPUT_DIR, label)
-            os.makedirs(label_dir, exist_ok=True)
+                train_emotion_dir = os.path.join(train_dir, emotion_folder)
+                test_emotion_dir = os.path.join(test_dir, emotion_folder)
+                os.makedirs(train_emotion_dir, exist_ok=True)
+                os.makedirs(test_emotion_dir, exist_ok=True)
 
-            # Define full file path
-            output_path = os.path.join(label_dir, filename)
+                for f in train_files:
+                    shutil.copy2(os.path.join(emotion_path, f), os.path.join(train_emotion_dir, f))
 
-            # Write the image to disk
-            with open(output_path, 'wb') as f:
-                f.write(file.read())
+                for f in test_files:
+                    shutil.copy2(os.path.join(emotion_path, f), os.path.join(test_emotion_dir, f))
 
-            print(f"[DOWNLOADED] {filename} to {label}")
-
-      except Exception as e:
+                print(f"[SPLIT] {emotion_folder}: {len(train_files)} train, {len(test_files)} test")
+        except Exception as e:
           raise e
       
   

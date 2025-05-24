@@ -6,7 +6,16 @@ from pathlib import Path
 class DataIngestionConfig:
     root_dir: Path
     local_data_file: Path
-    
+
+@dataclass(frozen=True)
+class DataDriftConfig:
+    reference_data_path : Path
+    current_data_path: Path
+    report_dir: Path
+    output_train_path:Path
+    output_test_path:Path
+    report_path: Path
+  
 
 @dataclass(frozen=True)
 class PrepareBaseModelConfig:
