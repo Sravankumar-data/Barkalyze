@@ -2,6 +2,9 @@ import os
 from pymongo import MongoClient
 import gridfs
 from src.bark.entity.config_entity import DataIngestionConfig
+from dotenv import load_dotenv
+import os
+from pathlib import Path
 
 class DataIngestion:
   def __init__(self, config: DataIngestionConfig):
@@ -13,7 +16,8 @@ class DataIngestion:
       '''
 
       try: 
-        MONGO_URI = self.config.MONGO_URI
+        load_dotenv(dotenv_path=Path(__file__).resolve().parents[3] / ".env")
+        MONGO_URI = os.getenv("MONGODB_URI")
         client = MongoClient(MONGO_URI)
 
         db = client[collection_name]

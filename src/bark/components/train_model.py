@@ -1,6 +1,8 @@
 import tensorflow as tf
 from src.bark.entity.config_entity import TrainingConfig
 from pathlib import Path
+from tensorflow.keras.callbacks import EarlyStopping
+from tensorflow.keras.optimizers import Adam
 
 class Training:
     def __init__(self, config: TrainingConfig):
@@ -9,8 +11,12 @@ class Training:
     
     def get_base_model(self):
         self.model = tf.keras.models.load_model(
-            self.config.updated_base_model_path
+            self.config.updated_base_model_path,
+            compile=False
         )
+        self.model.compile(optimizer=Adam(learning_rate=self.config.params_learning_rate),
+                      loss='categorical_crossentropy',
+                      metrics=['accuracy'])
 
     def train_valid_generator(self):
 
@@ -22,7 +28,7 @@ class Training:
         dataflow_kwargs = dict(
             target_size=self.config.params_image_size[:-1],
             batch_size=self.config.params_batch_size,
-            interpolation="bilinear"
+            # interpolation="bilinear"
         )
 
         valid_datagenerator = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -56,8 +62,6 @@ class Training:
             **dataflow_kwargs
         )
 
-        x, y = next(self.train_generator)
-        print(y.shape)
 
     
     @staticmethod
@@ -68,6 +72,7 @@ class Training:
 
     
     def train(self):
+        early_stop = EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
         self.steps_per_epoch = self.train_generator.samples // self.train_generator.batch_size
         self.validation_steps = self.valid_generator.samples // self.valid_generator.batch_size
 
@@ -76,7 +81,8 @@ class Training:
             epochs=self.config.params_epochs,
             steps_per_epoch=self.steps_per_epoch,
             validation_steps=self.validation_steps,
-            validation_data=self.valid_generator
+            validation_data=self.valid_generator,
+            callbacks=[early_stop]
         )
 
         self.save_model(

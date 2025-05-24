@@ -2,7 +2,7 @@ artifacts_root: artifacts
 
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  MONGO_URI : mongodb+srv://saivamshi6220:12345@cluster0.jdioado.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  MONGO_URI : ""
   local_data_file: artifacts/data_ingestion/
 
 

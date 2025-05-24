@@ -1,0 +1,119 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/bark/pipeline/stage_01_dataingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 5a6201a16e8d4d76877e50963d2bd40c
+      size: 451
+    - path: src/bark/pipeline/stage_01_dataingestion.py
+      hash: md5
+      md5: 33dd1cd7e75e403411c18dc1a5e4e03e
+      size: 928
+    outs:
+    - path: artifacts/data_ingestion/emotion_dataset_test
+      hash: md5
+      md5: 6cdb79342d6190d44fb6cd3b261fd0cf.dir
+      size: 6246504
+      nfiles: 3965
+    - path: artifacts/data_ingestion/emotion_dataset_train
+      hash: md5
+      md5: 08a7666596e02a36e6ef8246b9718021.dir
+      size: 25392729
+      nfiles: 16175
+  prepare_base_model:
+    cmd: python src/bark/pipeline/stage_02_prepare_base_model.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 5a6201a16e8d4d76877e50963d2bd40c
+      size: 451
+    - path: src/bark/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: d7822b4b1df5d4af152e64bab33d1d95
+      size: 982
+    params:
+      params.yaml:
+        CLASSES: 3
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        INCLUDE_TOP: false
+        LEARNING_RATE: 1e-05
+        WEIGHTS: imagenet
+    outs:
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 7a21016c9c12a8f8a746ad335715a80b.dir
+      size: 19062120
+      nfiles: 2
+  training:
+    cmd: python src/bark/pipeline/stage_03_model_training.py
+    deps:
+    - path: artifacts/data_ingestion/emotion_dataset_train
+      hash: md5
+      md5: 08a7666596e02a36e6ef8246b9718021.dir
+      size: 25392729
+      nfiles: 16175
+    - path: artifacts/prepare_base_model
+      hash: md5
+      md5: 7a21016c9c12a8f8a746ad335715a80b.dir
+      size: 19062120
+      nfiles: 2
+    - path: config/config.yaml
+      hash: md5
+      md5: 5a6201a16e8d4d76877e50963d2bd40c
+      size: 451
+    - path: src/bark/pipeline/stage_03_model_training.py
+      hash: md5
+      md5: 75369dba310c39504a414afa472435c9
+      size: 895
+    params:
+      params.yaml:
+        AUGMENTATION: false
+        BATCH_SIZE: 32
+        EPOCHS: 1
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+        LEARNING_RATE: 1e-05
+    outs:
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: fa3a93f09d27772256cdc82a0675f791
+      size: 21863152
+  evaluation:
+    cmd: python src/bark/pipeline/stage_04_modelEvaluation.py
+    deps:
+    - path: artifacts/data_ingestion/emotion_dataset_test
+      hash: md5
+      md5: 6cdb79342d6190d44fb6cd3b261fd0cf.dir
+      size: 6246504
+      nfiles: 3965
+    - path: artifacts/training/model.h5
+      hash: md5
+      md5: fa3a93f09d27772256cdc82a0675f791
+      size: 21863152
+    - path: config/config.yaml
+      hash: md5
+      md5: 5a6201a16e8d4d76877e50963d2bd40c
+      size: 451
+    - path: src/bark/pipeline/stage_04_modelEvaluation.py
+      hash: md5
+      md5: a3750dbd115df849ac79f29dcbb49df6
+      size: 906
+    params:
+      params.yaml:
+        BATCH_SIZE: 32
+        IMAGE_SIZE:
+        - 224
+        - 224
+        - 3
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: b86a2ef19b76e7b3dad4c6d25e866f9e
+      size: 73

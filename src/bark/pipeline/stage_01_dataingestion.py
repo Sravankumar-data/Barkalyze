@@ -3,6 +3,7 @@ from src.bark.components.dataingestion import DataIngestion
 from src.bark import logger
 
 
+
 STAGE_NAME = "Data Ingestion stage"
 
 class DataIngestionTrainingPipeline:
@@ -19,6 +20,7 @@ class DataIngestionTrainingPipeline:
 
 if __name__ == '__main__':
     try:
+
         logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
         obj = DataIngestionTrainingPipeline()
         obj.main()
