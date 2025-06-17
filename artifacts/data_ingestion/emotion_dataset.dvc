@@ -1,6 +1,0 @@
-outs:
-- md5: 06e50a27f38023dfc91653676402be23.dir
-  size: 31639233
-  nfiles: 20140
-  hash: md5
-  path: emotion_dataset

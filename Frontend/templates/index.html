@@ -23,11 +23,10 @@
     </style>
 </head>
 <body>
-    <p>this is a {{ EMOTION }}</p>
     <video id="autoplay-video" autoplay loop muted playsinline></video>
     <script>
         var videoElement = document.getElementById("autoplay-video");
-        var base64Video = {{ VIDEO_DATA }};  // Base64 dictionary injected from Python
+        var base64Video = {{ VIDEO_DATA }};  // Base64 dictionary injected from Pythons
 
         function playVideo(base64Video) {
             var binary = atob(base64Video);
@@ -45,6 +44,7 @@
 
         // Start the first video
         playVideo(base64Video);
+
     </script>
 </body>
 </html>

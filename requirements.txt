@@ -19,4 +19,6 @@ evidently
 python-dotenv
 fastapi
 uvicorn
+prometheus-client
+prometheus-fastapi-instrumentator
 -e .

@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+prometheus-fastapi-instrumentator
+pymongo
+numpy==1.24.3
+opencv-python-headless==4.8.1.78
+python-dotenv
+python-multipart
+

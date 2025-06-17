@@ -173,6 +173,7 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# artifacts/*
+artifacts/data_ingestion
+dataversioning/emotion_dataset
 
 barrkenv/*
