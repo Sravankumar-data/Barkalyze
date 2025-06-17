@@ -5,8 +5,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 6ca15433372ba2b3b15325cab94b724a
-      size: 777
+      md5: ecbb4e375047d4b732ff477a6ce8b83f
+      size: 422
     - path: src/bark/pipeline/stage_02_prepare_base_model.py
       hash: md5
       md5: d7822b4b1df5d4af152e64bab33d1d95
@@ -24,7 +24,7 @@ stages:
     outs:
     - path: artifacts/prepare_base_model
       hash: md5
-      md5: 17a8a98a9af0c0835bd2556beb0f0c32.dir
+      md5: fe26b8a89d5a9a29eba4183ca873771b.dir
       size: 19062120
       nfiles: 2
   training:
@@ -37,13 +37,13 @@ stages:
       nfiles: 16111
     - path: artifacts/prepare_base_model
       hash: md5
-      md5: 17a8a98a9af0c0835bd2556beb0f0c32.dir
+      md5: fe26b8a89d5a9a29eba4183ca873771b.dir
       size: 19062120
       nfiles: 2
     - path: config/config.yaml
       hash: md5
-      md5: 6ca15433372ba2b3b15325cab94b724a
-      size: 777
+      md5: ecbb4e375047d4b732ff477a6ce8b83f
+      size: 422
     - path: src/bark/pipeline/stage_03_model_training.py
       hash: md5
       md5: 75369dba310c39504a414afa472435c9
@@ -61,7 +61,7 @@ stages:
     outs:
     - path: artifacts/training/model.h5
       hash: md5
-      md5: 56ee2de5774ec743bd858e03879a786e
+      md5: aa0cb1dee03f7482c5db312de88c3f95
       size: 21863152
   evaluation:
     cmd: python src/bark/pipeline/stage_04_modelEvaluation.py
@@ -73,12 +73,12 @@ stages:
       nfiles: 4029
     - path: artifacts/training/model.h5
       hash: md5
-      md5: 56ee2de5774ec743bd858e03879a786e
+      md5: aa0cb1dee03f7482c5db312de88c3f95
       size: 21863152
     - path: config/config.yaml
       hash: md5
-      md5: 6ca15433372ba2b3b15325cab94b724a
-      size: 777
+      md5: ecbb4e375047d4b732ff477a6ce8b83f
+      size: 422
     - path: src/bark/pipeline/stage_04_modelEvaluation.py
       hash: md5
       md5: a3750dbd115df849ac79f29dcbb49df6
@@ -93,15 +93,15 @@ stages:
     outs:
     - path: scores.json
       hash: md5
-      md5: 892120bc6bc6528e7c0c7f9dc35f2946
-      size: 73
+      md5: 2e8e691fc62205f3f2475d6dfac5722b
+      size: 72
   data_ingestion:
     cmd: python src/bark/pipeline/stage_01_dataingestion.py
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 6ca15433372ba2b3b15325cab94b724a
-      size: 777
+      md5: ecbb4e375047d4b732ff477a6ce8b83f
+      size: 422
     - path: src/bark/pipeline/stage_01_dataingestion.py
       hash: md5
       md5: 093dd481e020502a914686f8c42361ba

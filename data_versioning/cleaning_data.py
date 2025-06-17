@@ -1,48 +1,56 @@
-from pymongo import MongoClient
-import gridfs
 import os
 import re
-
-
-# Replace with your MongoDB Atlas connection string
+from pymongo import MongoClient
+import gridfs
 from dotenv import load_dotenv
 
-load_dotenv()
+# ---------------------------- Environment Setup ---------------------------- #
 
+load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI")
+
+# ---------------------------- MongoDB & GridFS Setup ---------------------------- #
+
 client = MongoClient(MONGO_URI)
 db = client["emotion_dataset"]
 fs = gridfs.GridFS(db)
+
 COLLECTION_NAME = "emotion_counts"
 collection = db[COLLECTION_NAME]
 
-# Root folder to save files
+# ---------------------------- Local File System Setup ---------------------------- #
+
+# Directory where files will be saved
 root_output_folder = os.path.join(os.path.dirname(__file__), "emotion_dataset")
 os.makedirs(root_output_folder, exist_ok=True)
 
-def sanitize_filename(filename):
+# ---------------------------- Utility Functions ---------------------------- #
+
+def sanitize_filename(filename: str) -> str:
+    """Sanitize filename to avoid OS-restricted characters."""
     return re.sub(r'[<>:"/\\|?*]', '_', filename)
 
-def extract_emotion_from_filename(filename):
-    # Assumes emotion is before the first "_" in the filename
+def extract_emotion_from_filename(filename: str) -> str:
+    """Extract emotion label from the filename (assumes format: emotion_timestamp.jpg)."""
     return filename.split("_")[0]
 
-# Fetch and save files
+# ---------------------------- Fetch and Save Files ---------------------------- #
+
 for file in fs.find():
     raw_filename = file.filename
     safe_filename = sanitize_filename(raw_filename)
 
-    # Extract emotion from filename
+    # Determine emotion label from filename
     emotion_label = extract_emotion_from_filename(safe_filename)
 
-    # Folder: downloaded_files/angry/, downloaded_files/happy/, etc.
+    # Create emotion-specific subfolder
     emotion_folder = os.path.join(root_output_folder, emotion_label)
     os.makedirs(emotion_folder, exist_ok=True)
 
-    # Final file path
+    # Full path for output file
     filepath = os.path.join(emotion_folder, safe_filename)
 
-    # Read and save file
+    # Read data and write to disk
     data = file.read()
     if not data:
         print(f"⚠️ File empty: {raw_filename}")
@@ -55,7 +63,8 @@ for file in fs.find():
     except Exception as e:
         print(f"❌ Error saving {filepath}: {e}")
 
-# Clear GridFS (fs.files and fs.chunks)
+# ---------------------------- Clear GridFS ---------------------------- #
+
 fs_files = db.fs.files
 fs_chunks = db.fs.chunks
 
@@ -63,10 +72,14 @@ deleted_files = fs_files.delete_many({})
 deleted_chunks = fs_chunks.delete_many({})
 print(f"🧹 Cleared GridFS: {deleted_files.deleted_count} files and {deleted_chunks.deleted_count} chunks.")
 
+# ---------------------------- Reset Emotion Counts ---------------------------- #
 
-counts = {"angry":0,"happy":0,"neutral":0}
-# Step 2: Save to MongoDB collection (overwrite existing)
-collection.delete_many({})  # Optional: clear old counts
+counts = {"angry": 0, "happy": 0, "neutral": 0}
+
+# Clear existing documents
+collection.delete_many({})
+
+# Insert new reset counts
 bulk_docs = [{"emotion": emotion, "count": count} for emotion, count in counts.items()]
 if bulk_docs:
     collection.insert_many(bulk_docs)
