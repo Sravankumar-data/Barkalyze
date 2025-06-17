@@ -8,19 +8,6 @@ stages:
       - artifacts/data_ingestion/emotion_dataset_test
       - artifacts/data_ingestion/emotion_dataset_train
 
-  data_drift:
-    cmd: python src/bark/pipeline/stage_05_data_drift.py
-    deps:
-      - src/bark/pipeline/stage_05_data_drift.py
-      - artifacts/data_ingestion/emotion_dataset_test
-      - artifacts/data_ingestion/emotion_dataset_train
-      - config/config.yaml
-    outs:
-      - artifacts/reports/train.csv
-      - artifacts/reports/test.csv
-      - artifacts/reports/data_drift_report.html
-
-
   prepare_base_model:
     cmd: python src/bark/pipeline/stage_02_prepare_base_model.py
     deps:

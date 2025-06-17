@@ -1,7 +1,7 @@
 from src.bark.constants import *
 from src.bark.utils.common import read_yaml, create_directories 
 
-from src.bark.entity.config_entity import (DataIngestionConfig,DataDriftConfig,PrepareBaseModelConfig,TrainingConfig,EvaluationConfig)
+from src.bark.entity.config_entity import (DataIngestionConfig,PrepareBaseModelConfig,TrainingConfig,EvaluationConfig)
 import os
 
 class ConfigurationManager:
@@ -29,21 +29,6 @@ class ConfigurationManager:
 
         return data_ingestion_config
     
-    def get_data_drift_config(self) -> DataDriftConfig:
-        config = self.config.data_drift
-
-        create_directories([config.report_dir])
-
-        data_drift_config = DataDriftConfig(
-            reference_data_path=config.reference_data_path,
-            current_data_path=config.current_data_path,
-            report_dir=config.report_dir,
-            output_train_path=config.output_train_path,
-            output_test_path=config.output_test_path,
-            report_path=config.report_path
-        )
-
-        return data_drift_config
     
     def get_prepare_base_model_config(self) -> PrepareBaseModelConfig:
         config = self.config.prepare_base_model

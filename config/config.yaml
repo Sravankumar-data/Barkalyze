@@ -1,17 +1,8 @@
 artifacts_root: artifacts
 
 data_ingestion:
-  root_dir: artifacts/data_ingestion
+  root_dir: data_versioning
   local_data_file: artifacts/data_ingestion/
-
-data_drift:
-  reference_data_path: artifacts/data_ingestion/emotion_dataset_train/
-  current_data_path: artifacts/data_ingestion/emotion_dataset_test/
-  report_dir: artifacts/reports
-  output_train_path: artifacts/reports/train.csv
-  output_test_path: artifacts/reports/test.csv
-  report_path: artifacts/reports/data_drift_report.html
-
 
 prepare_base_model:
   root_dir: artifacts/prepare_base_model
