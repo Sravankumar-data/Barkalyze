@@ -3,7 +3,6 @@ from src.bark.pipeline.stage_01_dataingestion import DataIngestionTrainingPipeli
 from src.bark.pipeline.stage_02_prepare_base_model import PrepareBaseModelTrainingPipeline
 from src.bark.pipeline.stage_03_model_training import ModelTrainingPipeline
 from src.bark.pipeline.stage_04_modelEvaluation import EvaluationPipeline
-from src.bark.pipeline.stage_05_data_drift import DataDriftPipeline
 
 STAGE_NAME = "Data Ingestion stage"
 

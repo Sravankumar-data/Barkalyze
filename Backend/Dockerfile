@@ -7,13 +7,13 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+WORKDIR /Backend
 
-# Copy ONLY the Backend folder contents
-COPY Backend/ .
+COPY . .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENV PYTHONPATH=/app
+
+ENV PYTHONPATH="${PYTHONPATH}:/Backend/connect"
 
 CMD ["uvicorn", "connect.api:app", "--host", "0.0.0.0", "--port", "8000"]
