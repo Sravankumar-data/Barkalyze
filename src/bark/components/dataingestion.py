@@ -8,20 +8,26 @@ class DataIngestion:
     def __init__(self, config: DataIngestionConfig):
         self.config = config
         self.train_ratio = 0.8
-    def download_file(self):
+    def download_file(self,tag_name="v1"):
         """
-        Pull data from DVC remote by running 'dvc pull',
-        then split into train/test folders locally.
+        Pull data from DVC remote based on a specific Git tag,
+        then return to the main branch.
         """
         try:
-        # Step 1: Run 'dvc pull' to sync data from remote storage
-            try:
-                print("[INFO] Pulling data from DVC remote...")
-                result = subprocess.run(["dvc", "pull", os.path.join(self.config.root_dir, "emotion_dataset.dvc")], capture_output=True, text=True, check=True)
-                print(result.stdout)
-            except subprocess.CalledProcessError as e:
-                print(f"[ERROR] dvc pull failed: {e.stderr}")
-                raise e
+            # Step 1: Checkout to the Git tag where the dataset version is stored
+            print(f"[INFO] Checking out to Git tag: {tag_name}")
+            result = subprocess.run(["git", "checkout", f"tags/{tag_name}"], capture_output=True, text=True, check=True)
+            print(result.stdout)
+
+            # Step 2: Pull the data from DVC remote
+            print("[INFO] Pulling data from DVC remote...")
+            result = subprocess.run(
+                ["dvc", "pull", os.path.join(self.config.root_dir, "emotion_dataset.dvc")],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            print(result.stdout)
             
             data_dir = os.path.join(self.config.root_dir,"emotion_dataset")
             train_dir = os.path.join(self.config.local_data_file, "emotion_dataset_train")
@@ -61,7 +67,19 @@ class DataIngestion:
                     shutil.copy2(os.path.join(emotion_path, f), os.path.join(test_emotion_dir, f))
 
                 print(f"[SPLIT] {emotion_folder}: {len(train_files)} train, {len(test_files)} test")
-        except Exception as e:
-          raise e
+
+        except subprocess.CalledProcessError as e:
+            print(f"[ERROR] Command failed: {e.stderr}")
+            raise e
+
+        finally:
+            # Step 3: Return to the main branch
+            try:
+                print("[INFO] Returning to main branch...")
+                result = subprocess.run(["git", "checkout", "main"], capture_output=True, text=True, check=True)
+                print(result.stdout)
+            except subprocess.CalledProcessError as e:
+                print(f"[ERROR] Failed to return to main branch: {e.stderr}")
+                raise e
       
   

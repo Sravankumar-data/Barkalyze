@@ -24,6 +24,8 @@ import Fconfig
 # api_base = "http://localhost:8000"
 #cloud
 api_base = st.secrets["api_base"]
+
+
 METRICS_API_URL = f"{api_base}/record_metrics/"
 UPLOAD_API_URL = f"{api_base}/upload/"
 EMOTION_FILE = "Frontend/emotion_state.json"
