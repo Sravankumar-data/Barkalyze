@@ -45,19 +45,19 @@
 ## 📘 Project Overview
 
 At the heart of Barkalyze lies a different kind of purpose:
-Not to chase flashy utility or jump on the latest AI bandwagon—
-—but to master the craft of building intelligent systems the right way.
+Not to chase flashy utility or jump on the latest AI bandwagon
+, but to master the craft of building intelligent systems the right way.
 
 We’re not here to vibe code.
 We’re here to engineer.
 
 In today’s Gen-Z coding culture, most student projects revolve around copying snippets from AI tools, wiring things up with minimal understanding, and celebrating half-working demos. What’s lost in the process? The fundamentals: architecture, clarity, reproducibility, maintainability.
 
-Barkalyze is our counter-response to that trend—a fully-engineered AI system not built to impress, but to inspire better practice.
+Barkalyze is our counter-response to that trend a fully-engineered AI system not built to impress, but to inspire better practice.
 It’s not about what it does. It’s about how beautifully and thoughtfully it’s done.
 
 🎯 What This Project Stands For
-"Student projects should be playgrounds for architecture, experimentation, and engineering hygiene—not just shipping features."
+"Student projects should be playgrounds for architecture, experimentation, and engineering hygiene not just shipping features."
 
 ✅ PEP8-compliant, modular, and human-readable code
 
@@ -77,30 +77,34 @@ It’s not about what it does. It’s about how beautifully and thoughtfully it�
 
 ✅ Beautifully declarative configs (YAML/JSON) for predictable environments
 
-✅ No magic, no guesswork—just clean systems thinking
+✅ No magic, no guesswork just clean systems thinking
 
 ---
 
 # ⚙️ Environment Setup
-“Reproducibility isn’t a bonus—it’s the foundation.”
 
 This project was built with Python 3.11.4, and every component is configured for easy local or containerized deployment. Follow the steps below to get everything running cleanly.
 
 📁 1. Clone the Repository
 
 git clone https://github.com/Saivamshi-git/barkalyze.git
+
 cd barkalyze
+
 Make sure you're using Python 3.11.4 if running manually.
+---
 
 📄 2. Install Python Dependencies (for local development)
 If you want to run components manually (e.g., Streamlit), set up a virtual environment:
 
 python3.11 -m venv barkenv
+
 source barkenv/bin/activate  # On Windows: barkenv\Scripts\activate
+
 pip install -r requirements.txt
-
-
+---
 📦 3. Backend Setup using Docker Compose
+
 The backend is fully containerized using Docker Compose, which automatically sets up:
 
 🚀 FastAPI app (model inference + metrics)
@@ -110,13 +114,17 @@ The backend is fully containerized using Docker Compose, which automatically set
 📈 Grafana (real-time dashboard)
 
 🔐 Configure Your .env File First
+
 Before running Docker Compose, create a .env file in the root directory with the following:
 
 MONGODB_URI = mongodb://<your_mongodb_url>
-REPO_OWNER = <your_dagshub_username>
-REPO_NAME = <your_repo_name>
 
+REPO_OWNER = <your_dagshub_username>
+
+REPO_NAME = <your_repo_name>
+---
 🐳 4. Start the Backend Stack
+
 Once your .env is ready, run:
 
 docker-compose up --build
@@ -124,19 +132,25 @@ docker-compose up --build
 This will launch:
 
 Service	URL
-FastAPI	http://localhost:8000/metrics
-Prometheus	http://localhost:9090
-Grafana	http://localhost:3000
 
+FastAPI	http://localhost:8000/metrics
+
+Prometheus	http://localhost:9090
+
+Grafana	http://localhost:3000
+---
 🖥 5. Streamlit Frontend Setup
+
 You can run the Streamlit app independently from the /frontend directory:
 
 in Frontend/app.py (make changes this way)
+
 ![Data Architecture Diagram](doc_readMe/pic3.png)
 
 then run
 
 cd Frontend
+
 streamlit run app.py
 
 ---
@@ -155,13 +169,17 @@ streamlit run app.py
 🔁 DVC Workflow: Step-by-Step to get your pipeline work
 
 🧱 1. Initialize DVC (only once)
+
 dvc init
 
 2. make the pipeline run to create a lock file
+
 set PYTHONPATH=.
+
 dvc repro
 
 🧠 3. Visualize the Pipeline
+
 dvc dag
 
 🔁 Data Workflow: Step-by-Step to versioning the updated dataset
@@ -170,6 +188,7 @@ dvc dag
 
 
 🔹 Step 1: Clean and Prepare the Dataset
+
 python data_versioning/cleaning_data.py
 
 🔹 Step 2: Add the Dataset to DVC
@@ -179,16 +198,19 @@ dvc add data_versioning/emotion_dataset
 🔹 Step 3: Commit the DVC Metadata to Git
 
 git add data_versioning/emotion_dataset.dvc .gitignore
+
 git commit -m "Add emotion dataset version 2"
 
 🔹 Step 4: Tag the Dataset Version
 
 git tag v2
+
 git push origin v2
 
 The current data will be uploaded in the storage of dagshub and you can use it based on the version
 
-make changes in the pipeline to get the current version dataset
+Make changes in the pipeline to get the current version dataset
+
 in src\bark\pipeline\stage_01_dataingestion.py
 
 ![make changes](doc_readMe/pic1.png)
@@ -201,6 +223,7 @@ in src\bark\pipeline\stage_01_dataingestion.py
 uvicorn connect.api:app
 
 docker-compose down --volumes
+
 docker-compose up --build
 
 
@@ -212,7 +235,9 @@ dvc remove artifacts/data_ingestion/emotion_dataset.dvc
 dvc gc -w --force
 
 git add .
+
 git commit -m "Remove old dataset for reset"
+
 git push origin main
 
 
