@@ -1,24 +1,45 @@
 # BARKALYZE
 
 “This isn’t just code it’s a reflection of what should be taught before frameworks, tools, or AI.”
+---
 
-![Last Commit](https://img.shields.io/badge/last%20commit-today-brightgreen)
-![Jupyter Notebook](https://img.shields.io/badge/jupyter%20notebook-91.2%25-blue)
-![Languages](https://img.shields.io/badge/languages-9-blue)
+<p align="center">
+  <img src="https://img.shields.io/badge/last%20commit-today-brightgreen" />
+  <img src="https://img.shields.io/badge/jupyter%20notebook-91.2%25-blue" />
+  <img src="https://img.shields.io/badge/languages-9-blue" />
+</p>
 
 ---
 
-## 🚀 Built with the tools and technologies:
+## 🚀 Built with the Tools & Technologies
 
-| Tech Stack |
-|------------|
-| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white) ![Streamlit](https://img.shields.io/badge/-Streamlit-ff4b4b?logo=streamlit&logoColor=white) ![TensorFlow Lite](https://img.shields.io/badge/-TFLite-ff6f00?logo=tensorflow&logoColor=white) |
-| ![Prometheus](https://img.shields.io/badge/-Prometheus-e6522c?logo=prometheus&logoColor=white) ![Grafana](https://img.shields.io/badge/-Grafana-f46800?logo=grafana&logoColor=white) ![MLflow](https://img.shields.io/badge/-MLflow-0174BF?logo=mlflow&logoColor=white) ![DVC](https://img.shields.io/badge/-DVC-13ADC7?logo=dvc&logoColor=white) |
-| ![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=mongodb&logoColor=white) ![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white) ![NumPy](https://img.shields.io/badge/-NumPy-013243?logo=numpy&logoColor=white) ![pandas](https://img.shields.io/badge/-pandas-150458?logo=pandas&logoColor=white) |
-| ![YAML](https://img.shields.io/badge/-YAML-red?logo=yaml&logoColor=white) ![JSON](https://img.shields.io/badge/-JSON-black?logo=json&logoColor=white) ![Markdown](https://img.shields.io/badge/-Markdown-black?logo=markdown&logoColor=white) |
+<p align="center">
 
+  <!-- Row 1 -->
+  <img src="https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/-FastAPI-009688?logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Streamlit-ff4b4b?logo=streamlit&logoColor=white" />
+  <img src="https://img.shields.io/badge/-TFLite-ff6f00?logo=tensorflow&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Prometheus-e6522c?logo=prometheus&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Grafana-f46800?logo=grafana&logoColor=white" />
+  <img src="https://img.shields.io/badge/-MLflow-0174BF?logo=mlflow&logoColor=white" />
+  <img src="https://img.shields.io/badge/-DVC-13ADC7?logo=dvc&logoColor=white" />
+
+  <br/>
+
+  <!-- Row 2 -->
+  <img src="https://img.shields.io/badge/-MongoDB-47A248?logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/-NumPy-013243?logo=numpy&logoColor=white" />
+  <img src="https://img.shields.io/badge/-pandas-150458?logo=pandas&logoColor=white" />
+  <img src="https://img.shields.io/badge/-YAML-red?logo=yaml&logoColor=white" />
+  <img src="https://img.shields.io/badge/-JSON-black?logo=json&logoColor=white" />
+  <img src="https://img.shields.io/badge/-Markdown-black?logo=markdown&logoColor=white" />
+
+</p>
 
 ---
+
 
 
 ## 📘 Project Overview
@@ -60,7 +81,7 @@ It’s not about what it does. It’s about how beautifully and thoughtfully it�
 
 ---
 
-⚙️ Environment Setup
+# ⚙️ Environment Setup
 “Reproducibility isn’t a bonus—it’s the foundation.”
 
 This project was built with Python 3.11.4, and every component is configured for easy local or containerized deployment. Follow the steps below to get everything running cleanly.
@@ -112,6 +133,7 @@ You can run the Streamlit app independently from the /frontend directory:
 
 in Frontend/app.py (make changes this way)
 ![Data Architecture Diagram](doc_readMe/pic3.png)
+
 then run
 
 cd Frontend
@@ -169,12 +191,12 @@ The current data will be uploaded in the storage of dagshub and you can use it b
 make changes in the pipeline to get the current version dataset
 in src\bark\pipeline\stage_01_dataingestion.py
 
-![make changes](doc_readMe\pic1.png)
+![make changes](doc_readMe/pic1.png)
 
 
 ---
 
-### optional things
+### Optional things
 
 uvicorn connect.api:app
 
