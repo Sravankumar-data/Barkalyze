@@ -58,6 +58,8 @@ It’s not about what it does. It’s about how beautifully and thoughtfully it�
 
 ✅ No magic, no guesswork—just clean systems thinking
 
+---
+
 ⚙️ Environment Setup
 “Reproducibility isn’t a bonus—it’s the foundation.”
 
@@ -109,12 +111,13 @@ Grafana	http://localhost:3000
 You can run the Streamlit app independently from the /frontend directory:
 
 in Frontend/app.py (make changes this way)
-![Data Architecture Diagram](doc_readMe\pic3.png)
+![Data Architecture Diagram](doc_readMe/pic3.png)
 then run
 
 cd Frontend
 streamlit run app.py
 
+---
 
 # Pipeline Workflows
 1. Update config.yaml
@@ -141,7 +144,7 @@ dvc dag
 
 🔁 Data Workflow: Step-by-Step to versioning the updated dataset
 
-![Data Architecture Diagram](doc_readMe\pic2.png)
+![Data Architecture Diagram](doc_readMe/pic2.png)
 
 
 🔹 Step 1: Clean and Prepare the Dataset
@@ -169,6 +172,7 @@ in src\bark\pipeline\stage_01_dataingestion.py
 ![make changes](doc_readMe\pic1.png)
 
 
+---
 
 ### optional things
 
