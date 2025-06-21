@@ -1,6 +1,7 @@
 # BARKALYZE
 
 “This isn’t just code it’s a reflection of what should be taught before frameworks, tools, or AI.”
+
 ---
 
 <p align="center">
@@ -92,6 +93,7 @@ git clone https://github.com/Saivamshi-git/barkalyze.git
 cd barkalyze
 
 Make sure you're using Python 3.11.4 if running manually.
+
 ---
 
 📄 2. Install Python Dependencies (for local development)
@@ -102,6 +104,7 @@ python3.11 -m venv barkenv
 source barkenv/bin/activate  # On Windows: barkenv\Scripts\activate
 
 pip install -r requirements.txt
+
 ---
 📦 3. Backend Setup using Docker Compose
 
@@ -122,6 +125,7 @@ MONGODB_URI = mongodb://<your_mongodb_url>
 REPO_OWNER = <your_dagshub_username>
 
 REPO_NAME = <your_repo_name>
+
 ---
 🐳 4. Start the Backend Stack
 
@@ -138,6 +142,7 @@ FastAPI	http://localhost:8000/metrics
 Prometheus	http://localhost:9090
 
 Grafana	http://localhost:3000
+
 ---
 🖥 5. Streamlit Frontend Setup
 
