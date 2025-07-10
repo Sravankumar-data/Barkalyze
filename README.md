@@ -88,7 +88,7 @@ This project was built with Python 3.11.4, and every component is configured for
 
 📁 1. Clone the Repository
 
-git clone https://github.com/Saivamshi-git/barkalyze.git
+git clone https://github.com/Sravankumar-data/Barkalyze.git
 
 cd barkalyze
 
