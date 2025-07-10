@@ -41,7 +41,9 @@
 
 ---
 
+# ▶️ Barkalyze Live Demo  
 
+🔗 https://lnkd.in/gsvhmT7i
 
 ## 📘 Project Overview
 
@@ -245,9 +247,7 @@ git commit -m "Remove old dataset for reset"
 
 git push origin main
 
-# ▶️ Barkalyze Live Demo  
 
-🔗 https://lnkd.in/gsvhmT7i
 
 
 
